@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  sx-deployer:
+    image: ubuntu:focal
+    container_name: sx-deployer
+    environment:
+      - TZ=America/Denver
+    volumes:
+      - /entrypoint.sh:/entrypoint.sh
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    tty: true
+    stdin_open: true
+    command: ["/entrypoint.sh"]
+    logging:
+        options:
+            max-size: 1g
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2048M
+    restart: unless-stopped
